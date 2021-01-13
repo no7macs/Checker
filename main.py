@@ -1,5 +1,4 @@
 import os, sys, zipfile, json
-import win32com.shell.shell as shell
 
 def walk():
     path = './'
