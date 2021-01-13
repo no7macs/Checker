@@ -2,26 +2,20 @@ import os, sys, zipfile, json
 
 def walk():
     path = './'
-
+    filesList = []
     for root, directories, files in os.walk(path, topdown=False):
         for name in files:
             print(os.path.join(root, name))
+            filesList.append(os.path.join(root, name))
         for name in directories:
             print(os.path.join(root, name))
+            filesList.append(os.path.join(root, name))
+    return(filesList)
 
 def main():
-    # if dat.json exists open it
-    if os.path.isfile('dat.json'):
-        with open('dat.json','r') as jsondata:
-            loadedjsondata = json.loads(jsondata.read())
-            jsondata.close()
-    # if dat.json doesn't exist loop through all zip files for it
-    else: pass
     name = loadedjsondata['zipData']['name'] + '.zip'
-
     # if zip file already exists check files
     if os.path.isfile(name):
-        print('zip exists')
         for a in loadedjsondata['files']:
             zipFile = zipfile.ZipFile(name, 'r')
             zipFile = zipFile.read(a)
@@ -45,19 +39,26 @@ def main():
     else: 
         loadedjsondata['files'] = []
         newZip = zipfile.ZipFile(name, 'w', zipfile.ZIP_DEFLATED)
-        for a in os.listdir():
-            if (not a in loadedjsondata['exclude']) and (a != name):
-                print(a)
-                newZip.write(a)
-                loadedjsondata['files'].append(a)
-                print('saved ' + a)
-            else: pass
+        for a in walk():
+            print(bool(not(b in a)for b in loadedjsondata['exclude']))
+            # b in a for b in loadedjsondata['exclude']
+            if not(any(b in a for b in loadedjsondata['exclude'])):
+                if (not a in loadedjsondata['exclude']) and (a != name):
+                    print(a)
+                    newZip.write(a)
+                    loadedjsondata['files'].append(a)
+                    print('saved ' + a)
+                else: pass
         with open('dat.json', 'w') as jsondata:
             json.dump(loadedjsondata, jsondata, indent=4)
             jsondata.close()
         newZip.close()
-        main()
+        #main()
 
 if __name__ == "__main__":
-    #main()
-    walk()
+    # if dat.json exists open it
+    if os.path.isfile('dat.json'):
+        with open('dat.json','r') as jsondata:
+            loadedjsondata = json.loads(jsondata.read())
+            jsondata.close()
+    main()

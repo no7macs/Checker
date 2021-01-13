@@ -9,11 +9,5 @@
         "main.py",
         "dat.json"
     ],
-    "dirs":[],
-    "files": [
-        "LICENSE",
-        "New Text Document.txt",
-        "README.md",
-        "test foder"
-    ]
+    "files": []
 }
