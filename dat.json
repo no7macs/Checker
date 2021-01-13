@@ -7,10 +7,15 @@
         ".gitattributes",
         ".gitignore",
         "main.py",
-        "backup.zip"
+        "dat.json",
+        "backup.zip",
+        "Include"
     ],
     "files": [
 
     ],
-    "run":""
+    "run": [
+        "os.chdir('./Open_Clicker')",
+        "os.startfile('Open_Clicker.exe')"
+    ]
 }

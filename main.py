@@ -20,18 +20,8 @@ def main():
         with open('dat.json','r') as jsondata:
             loadedjsondata = json.loads(jsondata.read())
             jsondata.close()
-    # if dat.json is not found looks through every zip file in main dir for one with dat.json in it
-    else:
-        for a in os.listdir():
-            if '.zip' in a:
-                with zipfile.ZipFile(a, 'r') as tempZip:
-                    try:
-                        dat = tempZip.read('dat.json')
-                        print('found in ' + a)
-                        tempZip.close()
-                        loadedjsondata = json.loads(dat)
-                    except:
-                        print('not in ' + a)
+    # if dat.json is not found exits
+    else: exit()
     
     name = loadedjsondata['zipData']['name'] + '.zip'            
 
@@ -49,11 +39,11 @@ def main():
                     newFile.close()
             # if file changed revert it
             elif os.path.isfile(a) or os.path.isdir(a):
-                print('Reverting file contents')
                 with open(a, 'rb') as checkFile:
                     checkFileContents = checkFile.read()
                     checkFile.close()
                 if checkFileContents != zipFileContents:
+                    print('Reverting file contents')
                     with open(a, 'wb') as newVersion:
                         newVersion.write(zipFileContents)
     # if zip file doesn't exist create it
@@ -74,7 +64,10 @@ def main():
         newZip.close()
         #main()
 
-    os.startfile(loadedjsondata['run'])
+
+    print('completed')
+    for a in loadedjsondata['run']:
+        exec(a)
     #shell.ShellExecuteEx(lpVerb='runas', lpFile=loadedjsondata['run'])
 
 if __name__ == "__main__":
