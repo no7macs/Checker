@@ -1,4 +1,5 @@
 import os, sys, zipfile, json
+import win32com.shell.shell as shell
 
 def walk():
     path = './'
@@ -13,18 +14,39 @@ def walk():
     return(filesList)
 
 def main():
-    name = loadedjsondata['zipData']['name'] + '.zip'
+    loadedjsondata = {}
+    # checks if dat.json exists, if so open it
+    if os.path.isfile('dat.json'):
+        print('dat.json in place')
+        with open('dat.json','r') as jsondata:
+            loadedjsondata = json.loads(jsondata.read())
+            jsondata.close()
+    # if dat.json is not found looks through every zip file in main dir for one with dat.json in it
+    else:
+        for a in os.listdir():
+            if '.zip' in a:
+                with zipfile.ZipFile(a, 'r') as tempZip:
+                    try:
+                        dat = tempZip.read('dat.json')
+                        print('found in ' + a)
+                        tempZip.close()
+                        loadedjsondata = json.loads(dat)
+                    except:
+                        print('not in ' + a)
+    
+    name = loadedjsondata['zipData']['name'] + '.zip'            
+
     # if zip file already exists check files
     if os.path.isfile(name):
+        zipFile = zipfile.ZipFile(name, 'r')
         for a in loadedjsondata['files']:
-            zipFile = zipfile.ZipFile(name, 'r')
-            zipFile = zipFile.read(a)
+            zipFileContents = zipFile.read(a.strip('./'))
             # if file doesn't exist create it
             if (not os.path.isfile(a) and not os.path.isdir(a)) and not a in loadedjsondata['exclude']:
                 print('adding removed file')
                 with open(a, 'wb') as newFile:
-                    print(zipFile)
-                    newFile.write(zipFile)
+                    print(zipFileContents)
+                    newFile.write(zipFileContents)
                     newFile.close()
             # if file changed revert it
             elif os.path.isfile(a) or os.path.isdir(a):
@@ -32,16 +54,14 @@ def main():
                 with open(a, 'rb') as checkFile:
                     checkFileContents = checkFile.read()
                     checkFile.close()
-                if checkFileContents != zipFile:
+                if checkFileContents != zipFileContents:
                     with open(a, 'wb') as newVersion:
-                        newVersion.write(zipFile)
+                        newVersion.write(zipFileContents)
     # if zip file doesn't exist create it
     else: 
         loadedjsondata['files'] = []
         newZip = zipfile.ZipFile(name, 'w', zipfile.ZIP_DEFLATED)
         for a in walk():
-            print(bool(not(b in a)for b in loadedjsondata['exclude']))
-            # b in a for b in loadedjsondata['exclude']
             if not(any(b in a for b in loadedjsondata['exclude'])):
                 if (not a in loadedjsondata['exclude']) and (a != name):
                     print(a)
@@ -55,10 +75,8 @@ def main():
         newZip.close()
         #main()
 
+    os.startfile(loadedjsondata['run'])
+    #shell.ShellExecuteEx(lpVerb='runas', lpFile=loadedjsondata['run'])
+
 if __name__ == "__main__":
-    # if dat.json exists open it
-    if os.path.isfile('dat.json'):
-        with open('dat.json','r') as jsondata:
-            loadedjsondata = json.loads(jsondata.read())
-            jsondata.close()
     main()

@@ -1,13 +1,16 @@
 {
     "zipData": {
-        "name": "KYS"
+        "name": "backup"
     },
     "exclude": [
         ".git",
         ".gitattributes",
         ".gitignore",
         "main.py",
-        "dat.json"
+        "backup.zip"
     ],
-    "files": []
+    "files": [
+
+    ],
+    "run":""
 }
