@@ -6,13 +6,14 @@
         ".git",
         ".gitattributes",
         ".gitignore",
-        "main.py"
-    ],
-    "files": [
-        "dat.json",
-        "LICENSE",
         "main.py",
+        "dat.json"
+    ],
+    "dirs":[],
+    "files": [
+        "LICENSE",
         "New Text Document.txt",
-        "README.md"
+        "README.md",
+        "test foder"
     ]
 }
