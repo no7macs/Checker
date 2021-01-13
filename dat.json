@@ -1,0 +1,18 @@
+{
+    "zipData": {
+        "name": "KYS"
+    },
+    "exclude": [
+        ".git",
+        ".gitattributes",
+        ".gitignore",
+        "main.py"
+    ],
+    "files": [
+        "dat.json",
+        "LICENSE",
+        "main.py",
+        "New Text Document.txt",
+        "README.md"
+    ]
+}
