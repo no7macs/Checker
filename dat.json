@@ -14,5 +14,5 @@
     "files": [
 
     ],
-    "run": "cd ./Open_Cliker && Open_Clicker.exe"
+    "run": "cd ./Open_Clicker && Open_Clicker.exe"
 }

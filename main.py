@@ -76,6 +76,7 @@ def main():
 
     print('completed')
     os.system(loadedjsondata['run'])
+    sys.exit()
     #shell.ShellExecuteEx(lpVerb='runas', lpFile=loadedjsondata['run'])
 
 if __name__ == "__main__":
