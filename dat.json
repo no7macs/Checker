@@ -12,10 +12,6 @@
         "Include"
     ],
     "files": [
-
     ],
-    "run": [
-        "os.chdir('./Open_Clicker')",
-        "os.startfile('Open_Clicker.exe')"
-    ]
+    "run": ""
 }

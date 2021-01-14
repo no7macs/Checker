@@ -12,6 +12,17 @@ def walk():
             filesList.append(os.path.join(root, name))
     return(filesList)
 
+def sterilize(iterateString):
+    newString = ''
+    for a in range(0, len(iterateString)):
+        print(iterateString[a])
+        if iterateString[a] == '\\':
+            print('is char')
+            newString = newString + '/'
+        else:
+            newString = newString + iterateString[a]
+    return(newString)
+
 def main():
     loadedjsondata = {}
     # checks if dat.json exists, if so open it
@@ -66,9 +77,10 @@ def main():
 
 
     print('completed')
-    for a in loadedjsondata['run']:
-        exec(a)
     #shell.ShellExecuteEx(lpVerb='runas', lpFile=loadedjsondata['run'])
 
 if __name__ == "__main__":
     main()
+
+
+            
