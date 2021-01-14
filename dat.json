@@ -12,7 +12,6 @@
         "Include"
     ],
     "files": [
-
     ],
-    "run": "cd ./Open_Cliker && Open_Clicker.exe"
+    "run": ""
 }

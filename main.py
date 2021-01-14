@@ -7,15 +7,17 @@ def walk():
         for name in files:
             print(os.path.join(root, name))
             filesList.append(os.path.join(root, name))
-        #for name in directories:
-        #    print(os.path.join(root, name))
-        #    filesList.append(os.path.join(root, name))
+        for name in directories:
+            print(os.path.join(root, name))
+            filesList.append(os.path.join(root, name))
     return(filesList)
 
 def sterilize(iterateString):
     newString = ''
     for a in range(0, len(iterateString)):
+        print(iterateString[a])
         if iterateString[a] == '\\':
+            print('is char')
             newString = newString + '/'
         else:
             newString = newString + iterateString[a]
@@ -38,7 +40,7 @@ def main():
     if os.path.isfile(name):
         zipFile = zipfile.ZipFile(name, 'r')
         for a in loadedjsondata['files']:
-            zipFileContents =  zipFile.read(sterilize(a.strip('./')))
+            zipFileContents = zipFile.read(a.strip('./'))
             # if file doesn't exist create it
             if (not os.path.isfile(a) and not os.path.isdir(a)) and not a in loadedjsondata['exclude']:
                 print('adding removed file')
@@ -64,7 +66,7 @@ def main():
                 if (not a in loadedjsondata['exclude']) and (a != name):
                     print(a)
                     newZip.write(a)
-                    loadedjsondata['files'].append(sterilize(a))
+                    loadedjsondata['files'].append(a)
                     print('saved ' + a)
                 else: pass
         with open('dat.json', 'w') as jsondata:
@@ -75,7 +77,6 @@ def main():
 
 
     print('completed')
-    os.system(loadedjsondata['run'])
     #shell.ShellExecuteEx(lpVerb='runas', lpFile=loadedjsondata['run'])
 
 if __name__ == "__main__":
